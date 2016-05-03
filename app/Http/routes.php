@@ -58,8 +58,8 @@ Route::get('/company', function () {
 
 	set_time_limit(1000);
     
-    // for ($i=1; $i<=101537; $i++) {
-    for ($i=1; $i<=1; $i++) {
+    for ($i=1; $i<=101537; $i++) {
+    // for ($i=1; $i<=1; $i++) {
 
 	    $page = new Dom;
 
