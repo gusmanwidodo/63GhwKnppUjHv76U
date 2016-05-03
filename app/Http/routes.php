@@ -56,9 +56,16 @@ Route::get('/category', function () {
 
 Route::get('/company', function () {
 
-	set_time_limit(1000);
+	set_time_limit(1000);	
+
+
+		$i = File::get(storage_path('count.txt'));
+
+		$i = (int) $i;
+
+		if ($i == 101537) return 'finish';
     
-    for ($i=1; $i<=101537; $i++) {
+    // for ($i=1; $i<=101537; $i++) {
     // for ($i=1; $i<=1; $i++) {
 
 	    $page = new Dom;
@@ -78,17 +85,60 @@ Route::get('/company', function () {
 	    	$address = $list->find('.productdata .companytitle h4', 0)->text;
 
 
+            $company_dom = new Dom;
+            $company_dom->load($link .'/info');
+
+            $dict = [
+                'contact_person', 'email', 'phone', 'alamat', 'kodepos', 'negara', 'provinces', 'kota', 'website', 'gabung', 'update'
+            ];
+
+            $j = 0;
+            $comp = [];
+
+            foreach($company_dom->find('.userpage .rightcontent .form .column-9') as $val){
+                if($dict[$j] == 'email' || $dict[$j] == 'phone'){
+                    $comp[$dict[$j]] = $val->find('a')->getAttribute('id');
+                }else{
+                    $comp[$dict[$j]] = $val->innerHtml();
+                }
+                
+                $j++;
+            }
+
 	    	$company = new App\Company;
 	    	$company->name = $name;
 	    	$company->logo = $logo;
 	    	$company->link = $link;
-	    	$company->address = $address;
+	    	// $company->address = $address;
+
+            if($comp){
+                $company->contact_person = strip_tags($comp['contact_person']);
+                $company->email = base64_decode($comp['email']);
+                $company->phone = base64_decode($comp['phone']);
+                $company->address = strip_tags($comp['alamat']);
+                $company->zipcode = strip_tags($comp['kodepos']);
+                $company->city = strip_tags($comp['kota']);
+                $company->province = strip_tags($comp['provinces']);
+                $company->website = strip_tags($comp['website']);
+            }else{
+                $company->contact_person = '';
+                $company->email = '';
+                $company->phone = '';
+                $company->address = '';
+                $company->zipcode = '';
+                $company->city = '';
+                $company->province = '';
+                $company->website = '';
+            }
 
 	    	$company->save();
 
 	    }
 
-    }
+
+		File::put(storage_path('count.txt'), $i+1);
+
+    // }
 
     return 'success';
 

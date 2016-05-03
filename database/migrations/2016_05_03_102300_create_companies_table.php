@@ -24,6 +24,7 @@ class CreateCompaniesTable extends Migration
             $table->string('province')->nullable();
             $table->string('zipcode')->nullable();
             $table->string('phone')->nullable();
+            $table->string('contact_person')->nullable();
 
             $table->string('bank_name')->nullable();
             $table->string('bank_number')->nullable();
