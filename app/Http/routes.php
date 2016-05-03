@@ -74,7 +74,9 @@ Route::get('/company', function () {
 
 	    foreach ($page->find('.list .listingdata') as $list) {
 
-	    	$link = 'http:' . $list->find('.productdataimg a', 0)->getAttribute('href');
+	    	$link = 'http:' . $list->find('.productdataimg a', 0);
+
+	    	$link = $link->getAttribute('href');
 
 	    	$thumb = $list->find('.productdataimg a img', 0);
 
