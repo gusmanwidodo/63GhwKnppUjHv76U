@@ -215,11 +215,26 @@ Route::get('/product', function() {
 
             $desc = $product_dom->find('.descproduk', 0);
 
-            $json_data = $cart_button->getAttribute('data-product');
+            if ($cart_button) {
 
-            $d = ($json_data) ? $json_data : '';
+                $json_data = $cart_button->getAttribute('data-product');
 
-            $product_info = (array) json_decode($d);
+                $d = ($json_data) ? $json_data : '';
+
+                $product_info = (array) json_decode($d);
+
+            } else {
+
+                $product_info = [
+                    'product_name' => '',
+                    'price' => '',
+                    'unit' => '',
+                    'qty' => '',
+                    'product_img' => '',
+                    'company_name' => '',
+                    'company_url' => ''
+                ];
+            }
 
             if ($product_info) {
 
