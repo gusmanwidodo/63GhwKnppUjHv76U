@@ -205,64 +205,68 @@ Route::get('/product', function() {
             
             $link_dom = $list->find('.productdata .content p a', 0);
 
-            $link = 'http:' . $link_dom->getAttribute('href');
+            if ($link_dom) {
 
-            $product_dom = new Dom;
+                $link = 'http:' . $link_dom->getAttribute('href');
 
-            $product_dom->loadFromUrlProxy($link, $proxy);
+                $product_dom = new Dom;
 
-            $cart_button = $product_dom->find('#cartData', 0);
+                $product_dom->loadFromUrlProxy($link, $proxy);
 
-            $desc = $product_dom->find('.descproduk', 0);
+                $cart_button = $product_dom->find('#cartData', 0);
 
-            if ($desc) {
-                $description = strip_tags($desc->innerHtml);
-            } else {
-                $description = '';
-            }
+                $desc = $product_dom->find('.descproduk', 0);
 
-            if ($cart_button) {
+                if ($desc) {
+                    $description = strip_tags($desc->innerHtml);
+                } else {
+                    $description = '';
+                }
 
-                $json_data = $cart_button->getAttribute('data-product');
+                if ($cart_button) {
 
-                $d = ($json_data) ? $json_data : '';
+                    $json_data = $cart_button->getAttribute('data-product');
 
-                $product_info = (array) json_decode($d);
+                    $d = ($json_data) ? $json_data : '';
 
-            } else {
+                    $product_info = (array) json_decode($d);
 
-                $product_info = [
-                    'product_name' => '',
-                    'price' => '',
-                    'unit' => '',
-                    'qty' => '',
-                    'product_img' => '',
-                    'company_name' => '',
-                    'company_url' => ''
-                ];
-            }
+                } else {
 
-            if ($product_info) {
+                    $product_info = [
+                        'product_name' => '',
+                        'price' => '',
+                        'unit' => '',
+                        'qty' => '',
+                        'product_img' => '',
+                        'company_name' => '',
+                        'company_url' => ''
+                    ];
+                }
 
-                $product = new App\Product;
-                
-                // $product->company_id = $product_info['product_id'];
-                $product->category_id = $category->id;
-                $product->name = $product_info['product_name'];
-                $product->description = $description;
-                // $product->slug = $product_info[''];
-                // $product->description = $product_info[''];
-                $product->price = $product_info['price'];
-                // $product->discount = $product_info[''];
-                $product->stock = $product_info['unit'];
-                $product->min_qty = $product_info['qty'];
+                if ($product_info) {
 
-                $product->image = $product_info['product_img'];
+                    $product = new App\Product;
+                    
+                    // $product->company_id = $product_info['product_id'];
+                    $product->category_id = $category->id;
+                    $product->name = $product_info['product_name'];
+                    $product->description = $description;
+                    // $product->slug = $product_info[''];
+                    // $product->description = $product_info[''];
+                    $product->price = $product_info['price'];
+                    // $product->discount = $product_info[''];
+                    $product->stock = $product_info['unit'];
+                    $product->min_qty = $product_info['qty'];
 
-                $product->company_name = $product_info['company_name'];
-                $product->company_url = $product_info['company_url'];
+                    $product->image = $product_info['product_img'];
 
-                $product->save();                
+                    $product->company_name = $product_info['company_name'];
+                    $product->company_url = $product_info['company_url'];
+
+                    $product->save();                
+
+                }
 
             }
 
@@ -276,44 +280,48 @@ Route::get('/product', function() {
             
             $link_dom = $list->find('.productdata .content p a', 0);
 
-            $link = 'http:' . $link_dom->getAttribute('href');
+            if ($link_dom) {
 
-            $product_dom = new Dom;
+                $link = 'http:' . $link_dom->getAttribute('href');
 
-            $product_dom->loadFromUrlProxy($link, $proxy);
+                $product_dom = new Dom;
 
-            $cart_button = $product_dom->find('#cartData', 0);
+                $product_dom->loadFromUrlProxy($link, $proxy);
 
-            $desc = $product_dom->find('.descproduk', 0);
+                $cart_button = $product_dom->find('#cartData', 0);
 
-            $json_data = $cart_button->getAttribute('data-product');
+                $desc = $product_dom->find('.descproduk', 0);
 
-            $d = ($json_data) ? $json_data : '';
+                $json_data = $cart_button->getAttribute('data-product');
 
-            $product_info = (array) json_decode($d);
+                $d = ($json_data) ? $json_data : '';
 
-            if ($product_info) {
+                $product_info = (array) json_decode($d);
 
-                $product = new App\Product;
-                
-                // $product->company_id = $product_info['product_id'];
-                $product->category_id = $category->id;
-                $product->name = $product_info['product_name'];
+                if ($product_info) {
 
-                $product->description = strip_tags($desc->innerHtml);
-                // $product->slug = $product_info[''];
-                // $product->description = $product_info[''];
-                $product->price = $product_info['price'];
-                // $product->discount = $product_info[''];
-                $product->stock = $product_info['unit'];
-                $product->min_qty = $product_info['qty'];
+                    $product = new App\Product;
+                    
+                    // $product->company_id = $product_info['product_id'];
+                    $product->category_id = $category->id;
+                    $product->name = $product_info['product_name'];
 
-                $product->image = $product_info['product_img'];
+                    $product->description = strip_tags($desc->innerHtml);
+                    // $product->slug = $product_info[''];
+                    // $product->description = $product_info[''];
+                    $product->price = $product_info['price'];
+                    // $product->discount = $product_info[''];
+                    $product->stock = $product_info['unit'];
+                    $product->min_qty = $product_info['qty'];
 
-                $product->company_name = $product_info['company_name'];
-                $product->company_url = $product_info['company_url'];
+                    $product->image = $product_info['product_img'];
 
-                $product->save();                
+                    $product->company_name = $product_info['company_name'];
+                    $product->company_url = $product_info['company_url'];
+
+                    $product->save();                
+
+                }
 
             }
 
