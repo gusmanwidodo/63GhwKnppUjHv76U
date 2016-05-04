@@ -1,6 +1,6 @@
 <?php
 
-use PHPHtmlParser\Dom;
+use App\Http\Classes\Dom;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +56,23 @@ Route::get('/category', function () {
 
 Route::get('/company', function () {
 
+	$proxies = [
+		'106.184.7.132:8088',
+		'109.196.127.35:8888',
+		'109.69.2.125:8080',
+		'120.198.233.211:8080',
+		'120.198.244.29:80',
+		'120.198.244.29:8081',
+		'180.249.225.59:80',
+		'128.199.167.223:3128'
+	];
+
+	$proxy = '106.184.7.132:8088';
+
+	if (isset($proxies)) {
+	    $proxy = $proxies[array_rand($proxies)];
+	}
+
 	set_time_limit(1000);	
 
 
@@ -70,13 +87,13 @@ Route::get('/company', function () {
 
 	    $page = new Dom;
 
-	    $page->load('http://m.indonetwork.co.id/search?type=company&page=' . $i);
+	    $page->loadFromUrlProxy('http://m.indonetwork.co.id/search?type=company&page=' . $i, $proxy);
 
 	    foreach ($page->find('.list .listingdata') as $list) {
 
-	    	$link_dom = 'http:' . $list->find('.productdataimg a', 0);
+	    	$link_dom = $list->find('.productdataimg a', 0);
 
-	    	$link = $link_dom->getAttribute('href');
+	    	$link = 'http:' . $link_dom->getAttribute('href');
 
 	    	$thumb = $list->find('.productdataimg a img', 0);
 
@@ -88,7 +105,7 @@ Route::get('/company', function () {
 
 
             $company_dom = new Dom;
-            $company_dom->load($link .'/info');
+            $company_dom->loadFromUrlProxy($link .'/info', $proxy);
 
             $dict = [
                 'contact_person', 'email', 'phone', 'alamat', 'kodepos', 'negara', 'provinces', 'kota', 'website', 'gabung', 'update'
@@ -142,7 +159,7 @@ Route::get('/company', function () {
 
     // }
 
-    return 'success';
+    return 'success ' . File::get(storage_path('count.txt'));
 
 
 });
