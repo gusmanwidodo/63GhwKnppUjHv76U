@@ -58,6 +58,7 @@ Route::get('/company', function () {
 
 	$proxies = [
 		'106.184.7.132:8088',
+		'120.198.233.211:80',
 		'109.196.127.35:8888',
 //		'109.69.2.125:8080',
 		'139.162.40.132:8080',
@@ -185,7 +186,7 @@ Route::get('/product', function() {
             '120.198.244.29:8081',
             // '180.249.225.59:80',
             '128.199.167.223:3128',
-	    '202.167.248.186:80
+	    '202.167.248.186:80'
         ];
 
         $proxy = '106.184.7.132:8088';
@@ -212,7 +213,7 @@ Route::get('/product', function() {
 
             $cart_button = $product_dom->find('#cartData', 0);
 
-            $desc = $product_dom->find('.descproduk p', 0);
+            $desc = $product_dom->find('.descproduk', 0);
 
             $json_data = $cart_button->getAttribute('data-product');
 
@@ -227,7 +228,7 @@ Route::get('/product', function() {
                 // $product->company_id = $product_info['product_id'];
                 $product->category_id = $category->id;
                 $product->name = $product_info['product_name'];
-                $product->description = strip_tags($desc->text);
+                $product->description = strip_tags($desc->innerHtml);
                 // $product->slug = $product_info[''];
                 // $product->description = $product_info[''];
                 $product->price = $product_info['price'];
@@ -262,7 +263,7 @@ Route::get('/product', function() {
 
             $cart_button = $product_dom->find('#cartData', 0);
 
-            $desc = $product_dom->find('.descproduk p', 0);
+            $desc = $product_dom->find('.descproduk', 0);
 
             $json_data = $cart_button->getAttribute('data-product');
 
@@ -278,7 +279,7 @@ Route::get('/product', function() {
                 $product->category_id = $category->id;
                 $product->name = $product_info['product_name'];
 
-                $product->description = strip_tags($desc->text);
+                $product->description = strip_tags($desc->innerHtml);
                 // $product->slug = $product_info[''];
                 // $product->description = $product_info[''];
                 $product->price = $product_info['price'];
