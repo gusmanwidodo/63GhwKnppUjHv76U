@@ -192,13 +192,60 @@ Route::get('/product', function() {
             $proxy = $proxies[array_rand($proxies)];
         }
 
-        set_time_limit(1000);
+        set_time_limit(10000);
 
         $page = new Dom;
 
-        $page->loadFromUrlProxy($category->link, $proxy);
+        $page->loadFromUrlProxy($category->link . '?page=1', $proxy);
 
         foreach ($page->find('.list .listingdata') as $list) {
+            
+            $link_dom = $list->find('.productdata .content p a', 0);
+
+            $link = 'http:' . $link_dom->getAttribute('href');
+
+            $product_dom = new Dom;
+
+            $product_dom->loadFromUrlProxy($link, $proxy);
+
+            $cart_button = $product_dom->find('#cartData', 0);
+
+            $json_data = $cart_button->getAttribute('data-product');
+
+            $d = ($json_data) ? $json_data : '';
+
+            $product_info = (array) json_decode($d);
+
+            if ($product_info) {
+
+                $product = new App\Product;
+                
+                // $product->company_id = $product_info['product_id'];
+                $product->category_id = $category->id;
+                $product->name = $product_info['product_name'];
+                // $product->slug = $product_info[''];
+                // $product->description = $product_info[''];
+                $product->price = $product_info['price'];
+                // $product->discount = $product_info[''];
+                $product->stock = $product_info['unit'];
+                $product->min_qty = $product_info['qty'];
+
+                $product->image = $product_info['product_img'];
+
+                $product->company_name = $product_info['company_name'];
+                $product->company_url = $product_info['company_url'];
+
+                $product->save();                
+
+            }
+
+        }
+
+        $page2 = new Dom;
+
+        $page2->loadFromUrlProxy($category->link . '?page=2', $proxy);
+
+        foreach ($page2->find('.list .listingdata') as $list) {
             
             $link_dom = $list->find('.productdata .content p a', 0);
 
@@ -246,5 +293,5 @@ Route::get('/product', function() {
     File::put(storage_path('category.txt'), $id-1);
 
     return 'success ' . File::get(storage_path('category.txt'));
-    
+
 });
