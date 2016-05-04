@@ -215,6 +215,12 @@ Route::get('/product', function() {
 
             $desc = $product_dom->find('.descproduk', 0);
 
+            if ($desc) {
+                $description = strip_tags($desc->innerHtml);
+            } else {
+                $description = '';
+            }
+
             if ($cart_button) {
 
                 $json_data = $cart_button->getAttribute('data-product');
@@ -243,7 +249,7 @@ Route::get('/product', function() {
                 // $product->company_id = $product_info['product_id'];
                 $product->category_id = $category->id;
                 $product->name = $product_info['product_name'];
-                $product->description = strip_tags($desc->innerHtml);
+                $product->description = $description;
                 // $product->slug = $product_info[''];
                 // $product->description = $product_info[''];
                 $product->price = $product_info['price'];
