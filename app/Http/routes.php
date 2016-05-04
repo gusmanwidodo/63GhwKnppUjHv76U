@@ -64,7 +64,7 @@ Route::get('/company', function () {
 		'120.198.233.211:8080',
 		'120.198.244.29:80',
 		'120.198.244.29:8081',
-		'180.249.225.59:80',
+		// '180.249.225.59:80',
 		'128.199.167.223:3128'
 	];
 
@@ -163,4 +163,88 @@ Route::get('/company', function () {
     return 'success ' . File::get(storage_path('count.txt'));
 
 
+});
+
+Route::get('/product', function() {
+
+    $id = File::get(storage_path('category.txt'));
+
+    $id = (int) $id;
+
+    $category = App\Category::where('id', $id)->where('parent_id', '!=', 0)->orderBy('id', 'desc')->first();
+
+    if ($category) {
+
+        $proxies = [
+            '106.184.7.132:8088',
+            '109.196.127.35:8888',
+            '139.162.40.132:8080',
+            '120.198.233.211:8080',
+            '120.198.244.29:80',
+            '120.198.244.29:8081',
+            // '180.249.225.59:80',
+            '128.199.167.223:3128'
+        ];
+
+        $proxy = '106.184.7.132:8088';
+
+        if (isset($proxies)) {
+            $proxy = $proxies[array_rand($proxies)];
+        }
+
+        set_time_limit(1000);
+
+        $page = new Dom;
+
+        $page->loadFromUrlProxy($category->link, $proxy);
+
+        foreach ($page->find('.list .listingdata') as $list) {
+            
+            $link_dom = $list->find('.productdata .content p a', 0);
+
+            $link = 'http:' . $link_dom->getAttribute('href');
+
+            $product_dom = new Dom;
+
+            $product_dom->loadFromUrlProxy($link, $proxy);
+
+            $cart_button = $product_dom->find('#cartData', 0);
+
+            $json_data = $cart_button->getAttribute('data-product');
+
+            $d = ($json_data) ? $json_data : '';
+
+            $product_info = (array) json_decode($d);
+
+            if ($product_info) {
+
+                $product = new App\Product;
+                
+                // $product->company_id = $product_info['product_id'];
+                $product->category_id = $category->id;
+                $product->name = $product_info['product_name'];
+                // $product->slug = $product_info[''];
+                // $product->description = $product_info[''];
+                $product->price = $product_info['price'];
+                // $product->discount = $product_info[''];
+                $product->stock = $product_info['unit'];
+                $product->min_qty = $product_info['qty'];
+
+                $product->image = $product_info['product_img'];
+
+                $product->company_name = $product_info['company_name'];
+                $product->company_url = $product_info['company_url'];
+
+                $product->save();                
+
+            }
+
+        }
+
+    }
+
+    File::put(storage_path('category.txt'), $id-1);
+
+    return 'success ' . File::get(storage_path('category.txt'));
+    
 });
