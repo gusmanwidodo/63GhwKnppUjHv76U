@@ -210,6 +210,8 @@ Route::get('/product', function() {
 
             $cart_button = $product_dom->find('#cartData', 0);
 
+            $desc = $product_dom->find('.descproduk p', 0);
+
             $json_data = $cart_button->getAttribute('data-product');
 
             $d = ($json_data) ? $json_data : '';
@@ -223,6 +225,7 @@ Route::get('/product', function() {
                 // $product->company_id = $product_info['product_id'];
                 $product->category_id = $category->id;
                 $product->name = $product_info['product_name'];
+                $product->description = strip_tags($desc->text);
                 // $product->slug = $product_info[''];
                 // $product->description = $product_info[''];
                 $product->price = $product_info['price'];
@@ -257,6 +260,8 @@ Route::get('/product', function() {
 
             $cart_button = $product_dom->find('#cartData', 0);
 
+            $desc = $product_dom->find('.descproduk p', 0);
+
             $json_data = $cart_button->getAttribute('data-product');
 
             $d = ($json_data) ? $json_data : '';
@@ -270,6 +275,8 @@ Route::get('/product', function() {
                 // $product->company_id = $product_info['product_id'];
                 $product->category_id = $category->id;
                 $product->name = $product_info['product_name'];
+
+                $product->description = strip_tags($desc->text);
                 // $product->slug = $product_info[''];
                 // $product->description = $product_info[''];
                 $product->price = $product_info['price'];
