@@ -96,6 +96,8 @@ Route::get('/company', function () {
 
 	    	$link_dom = $list->find('.productdataimg a', 0);
 
+            if ($link_dom) {
+
 	    	$link = 'http:' . $link_dom->getAttribute('href');
 
 	    	$thumb = $list->find('.productdataimg a img', 0);
@@ -154,6 +156,7 @@ Route::get('/company', function () {
             }
 
 	    	$company->save();
+            }
 
 	    }
 
