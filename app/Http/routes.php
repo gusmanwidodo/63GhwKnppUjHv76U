@@ -292,11 +292,32 @@ Route::get('/product', function() {
 
                 $desc = $product_dom->find('.descproduk', 0);
 
-                $json_data = $cart_button->getAttribute('data-product');
+                if ($desc) {
+                    $description = strip_tags($desc->innerHtml);
+                } else {
+                    $description = '';
+                }
 
-                $d = ($json_data) ? $json_data : '';
+                if ($cart_button) {
 
-                $product_info = (array) json_decode($d);
+                    $json_data = $cart_button->getAttribute('data-product');
+
+                    $d = ($json_data) ? $json_data : '';
+
+                    $product_info = (array) json_decode($d);
+
+                } else {
+
+                    $product_info = [
+                        'product_name' => '',
+                        'price' => '',
+                        'unit' => '',
+                        'qty' => '',
+                        'product_img' => '',
+                        'company_name' => '',
+                        'company_url' => ''
+                    ];
+                }
 
                 if ($product_info) {
 
@@ -305,8 +326,7 @@ Route::get('/product', function() {
                     // $product->company_id = $product_info['product_id'];
                     $product->category_id = $category->id;
                     $product->name = $product_info['product_name'];
-
-                    $product->description = strip_tags($desc->innerHtml);
+                    $product->description = $description;
                     // $product->slug = $product_info[''];
                     // $product->description = $product_info[''];
                     $product->price = $product_info['price'];
