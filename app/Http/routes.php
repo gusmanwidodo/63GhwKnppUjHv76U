@@ -13,6 +13,22 @@ use App\Http\Classes\Dom;
 |
 */
 
+$proxies = [
+    '116.193.70.38:3128',
+    '120.198.244.29:9999',
+    '163.172.21.47:8888',
+    '167.114.171.155:3128',
+    '176.53.24.104:3128',
+    '183.207.228.121:80',
+    '183.81.171.98:8080',
+    '185.26.114.31:3128',
+    '189.89.227.117:3128',
+    '190.0.131.101:80'
+];
+
+$proxy = '190.0.131.101:80';
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -54,22 +70,7 @@ Route::get('/category', function () {
 
 });
 
-Route::get('/company', function () {
-
-	$proxies = [
-        '116.193.70.38:3128',
-        '120.198.244.29:9999',
-        '163.172.21.47:8888',
-        '167.114.171.155:3128',
-        '176.53.24.104:3128',
-        '183.207.228.121:80',
-        '183.81.171.98:8080',
-        '185.26.114.31:3128',
-        '189.89.227.117:3128',
-        '190.0.131.101:80'
-	];
-
-	$proxy = '190.0.131.101:80';
+Route::get('/company', function () use ($proxies, $proxy) {
 
 	if (isset($proxies)) {
 	    $proxy = $proxies[array_rand($proxies)];
@@ -169,22 +170,7 @@ Route::get('/company', function () {
 
 });
 
-Route::get('/company2', function () {
-
-    $proxies = [
-        '116.193.70.38:3128',
-        '120.198.244.29:9999',
-        '163.172.21.47:8888',
-        '167.114.171.155:3128',
-        '176.53.24.104:3128',
-        '183.207.228.121:80',
-        '183.81.171.98:8080',
-        '185.26.114.31:3128',
-        '189.89.227.117:3128',
-        '190.0.131.101:80'
-    ];
-
-    $proxy = '190.0.131.101:80';
+Route::get('/company2', function () use ($proxies, $proxy) {
 
     if (isset($proxies)) {
         $proxy = $proxies[array_rand($proxies)];
@@ -284,8 +270,7 @@ Route::get('/company2', function () {
 
 });
 
-
-Route::get('/product', function() {
+Route::get('/product', function() use ($proxies, $proxy) {
 
     $id = File::get(storage_path('category.txt'));
 
@@ -295,21 +280,6 @@ Route::get('/product', function() {
 
     if ($category) {
 
-        $proxies = [
-            '116.193.70.38:3128',
-            '120.198.244.29:9999',
-            '163.172.21.47:8888',
-            '167.114.171.155:3128',
-            '176.53.24.104:3128',
-            '183.207.228.121:80',
-            '183.81.171.98:8080',
-            '185.26.114.31:3128',
-            '189.89.227.117:3128',
-            '190.0.131.101:80'
-        ];
-
-        $proxy = '190.0.131.101:80';
-
         if (isset($proxies)) {
             $proxy = $proxies[array_rand($proxies)];
         }
@@ -318,7 +288,7 @@ Route::get('/product', function() {
 
         $page = new Dom;
 
-        $page->loadFromUrlProxy($category->link . '?page=1', $proxy);
+        $page->loadFromUrlProxy($category->link . '?page=3', $proxy);
 
         foreach ($page->find('.list .listingdata') as $list) {
             
@@ -393,7 +363,7 @@ Route::get('/product', function() {
 
         $page2 = new Dom;
 
-        $page2->loadFromUrlProxy($category->link . '?page=2', $proxy);
+        $page2->loadFromUrlProxy($category->link . '?page=4', $proxy);
 
         foreach ($page2->find('.list .listingdata') as $list) {
             
@@ -474,7 +444,7 @@ Route::get('/product', function() {
 
 });
 
-Route::get('/product2', function() {
+Route::get('/product2', function() use ($proxies, $proxy) {
 
     $id = File::get(storage_path('category2.txt'));
 
@@ -484,21 +454,6 @@ Route::get('/product2', function() {
 
     if ($category) {
 
-        $proxies = [
-            '116.193.70.38:3128',
-            '120.198.244.29:9999',
-            '163.172.21.47:8888',
-            '167.114.171.155:3128',
-            '176.53.24.104:3128',
-            '183.207.228.121:80',
-            '183.81.171.98:8080',
-            '185.26.114.31:3128',
-            '189.89.227.117:3128',
-            '190.0.131.101:80'
-        ];
-
-        $proxy = '190.0.131.101:80';
-
         if (isset($proxies)) {
             $proxy = $proxies[array_rand($proxies)];
         }
@@ -507,7 +462,7 @@ Route::get('/product2', function() {
 
         $page = new Dom;
 
-        $page->loadFromUrlProxy($category->link . '?page=1', $proxy);
+        $page->loadFromUrlProxy($category->link . '?page=3', $proxy);
 
         foreach ($page->find('.list .listingdata') as $list) {
             
@@ -582,7 +537,7 @@ Route::get('/product2', function() {
 
         $page2 = new Dom;
 
-        $page2->loadFromUrlProxy($category->link . '?page=2', $proxy);
+        $page2->loadFromUrlProxy($category->link . '?page=4', $proxy);
 
         foreach ($page2->find('.list .listingdata') as $list) {
             
@@ -663,7 +618,7 @@ Route::get('/product2', function() {
 
 });
 
-Route::get('/product2-17', function() {
+Route::get('/product2-17', function() use ($proxies, $proxy) {
 
     $id = File::get(storage_path('category2_17.txt'));
 
@@ -674,21 +629,6 @@ Route::get('/product2-17', function() {
     $category = App\Category::where('id', $id)->where('parent_id', '!=', 0)->orderBy('id', 'desc')->first();
 
     if ($category) {
-
-        $proxies = [
-            '116.193.70.38:3128',
-            '120.198.244.29:9999',
-            '163.172.21.47:8888',
-            '167.114.171.155:3128',
-            '176.53.24.104:3128',
-            '183.207.228.121:80',
-            '183.81.171.98:8080',
-            '185.26.114.31:3128',
-            '189.89.227.117:3128',
-            '190.0.131.101:80'
-        ];
-
-        $proxy = '190.0.131.101:80';
 
         if (isset($proxies)) {
             $proxy = $proxies[array_rand($proxies)];
