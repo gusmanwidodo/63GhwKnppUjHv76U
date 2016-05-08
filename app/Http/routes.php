@@ -1199,6 +1199,354 @@ Route::get('/product2', function() use ($proxies, $proxy) {
 
 });
 
+Route::get('/product3', function() use ($proxies, $proxy) {
+
+    $id = File::get(storage_path('category3.txt'));
+
+    $id = (int) $id;
+
+    $category = App\Category::where('id', $id)->where('parent_id', '!=', 0)->orderBy('id', 'desc')->first();
+
+    if ($category) {
+
+        if (isset($proxies)) {
+            $proxy = $proxies[array_rand($proxies)];
+        }
+
+        set_time_limit(10000);
+
+        $page = new Dom;
+
+        $page->loadFromUrlProxy($category->link . '?page=5', $proxy);
+
+        foreach ($page->find('.list .listingdata') as $list) {
+            
+            $link_dom = $list->find('.productdata .content p a', 0);
+
+            if ($link_dom) {
+
+                $link = 'http:' . $link_dom->getAttribute('href');
+
+                $product_dom = new Dom;
+
+                $product_dom->loadFromUrlProxy($link, $proxy);
+
+                $cart_button = $product_dom->find('#cartData', 0);
+
+                $desc = $product_dom->find('.descproduk', 0);
+
+                if ($desc) {
+                    $description = strip_tags($desc->innerHtml);
+                } else {
+                    $description = '';
+                }
+
+                if ($cart_button) {
+
+                    $json_data = $cart_button->getAttribute('data-product');
+
+                    $d = ($json_data) ? $json_data : '';
+
+                    $product_info = (array) json_decode($d);
+
+                } else {
+
+                    $product_info = [
+                        'product_name' => '',
+                        'price' => '',
+                        'unit' => '',
+                        'qty' => '',
+                        'product_img' => '',
+                        'company_name' => '',
+                        'company_url' => ''
+                    ];
+                }
+
+                if ($product_info) {
+
+                    $product = new App\Product;
+                    
+                    // $product->company_id = $product_info['product_id'];
+                    $product->category_id = $category->id;
+                    $product->name = $product_info['product_name'];
+                    $product->description = $description;
+                    // $product->slug = $product_info[''];
+                    // $product->description = $product_info[''];
+                    $product->price = $product_info['price'];
+                    // $product->discount = $product_info[''];
+                    $product->stock = $product_info['unit'];
+                    $product->min_qty = $product_info['qty'];
+
+                    $product->image = $product_info['product_img'];
+
+                    $product->company_name = $product_info['company_name'];
+                    $product->company_url = $product_info['company_url'];
+
+                    $product->save();                
+
+                }
+
+            }
+
+        }
+
+        $page2 = new Dom;
+
+        $page2->loadFromUrlProxy($category->link . '?page=6', $proxy);
+
+        foreach ($page2->find('.list .listingdata') as $list) {
+            
+            $link_dom = $list->find('.productdata .content p a', 0);
+
+            if ($link_dom) {
+
+                $link = 'http:' . $link_dom->getAttribute('href');
+
+                $product_dom = new Dom;
+
+                $product_dom->loadFromUrlProxy($link, $proxy);
+
+                $cart_button = $product_dom->find('#cartData', 0);
+
+                $desc = $product_dom->find('.descproduk', 0);
+
+                if ($desc) {
+                    $description = strip_tags($desc->innerHtml);
+                } else {
+                    $description = '';
+                }
+
+                if ($cart_button) {
+
+                    $json_data = $cart_button->getAttribute('data-product');
+
+                    $d = ($json_data) ? $json_data : '';
+
+                    $product_info = (array) json_decode($d);
+
+                } else {
+
+                    $product_info = [
+                        'product_name' => '',
+                        'price' => '',
+                        'unit' => '',
+                        'qty' => '',
+                        'product_img' => '',
+                        'company_name' => '',
+                        'company_url' => ''
+                    ];
+                }
+
+                if ($product_info) {
+
+                    $product = new App\Product;
+                    
+                    // $product->company_id = $product_info['product_id'];
+                    $product->category_id = $category->id;
+                    $product->name = $product_info['product_name'];
+                    $product->description = $description;
+                    // $product->slug = $product_info[''];
+                    // $product->description = $product_info[''];
+                    $product->price = $product_info['price'];
+                    // $product->discount = $product_info[''];
+                    $product->stock = $product_info['unit'];
+                    $product->min_qty = $product_info['qty'];
+
+                    $product->image = $product_info['product_img'];
+
+                    $product->company_name = $product_info['company_name'];
+                    $product->company_url = $product_info['company_url'];
+
+                    $product->save();                
+
+                }
+
+            }
+
+        }
+
+    }
+
+    File::put(storage_path('category3.txt'), $id-1);
+
+    return 'success ' . File::get(storage_path('category3.txt'));
+
+});
+
+Route::get('/product4', function() use ($proxies, $proxy) {
+
+    $id = File::get(storage_path('category4.txt'));
+
+    $id = (int) $id;
+
+    $category = App\Category::where('id', $id)->where('parent_id', '!=', 0)->orderBy('id', 'desc')->first();
+
+    if ($category) {
+
+        if (isset($proxies)) {
+            $proxy = $proxies[array_rand($proxies)];
+        }
+
+        set_time_limit(10000);
+
+        $page = new Dom;
+
+        $page->loadFromUrlProxy($category->link . '?page=5', $proxy);
+
+        foreach ($page->find('.list .listingdata') as $list) {
+            
+            $link_dom = $list->find('.productdata .content p a', 0);
+
+            if ($link_dom) {
+
+                $link = 'http:' . $link_dom->getAttribute('href');
+
+                $product_dom = new Dom;
+
+                $product_dom->loadFromUrlProxy($link, $proxy);
+
+                $cart_button = $product_dom->find('#cartData', 0);
+
+                $desc = $product_dom->find('.descproduk', 0);
+
+                if ($desc) {
+                    $description = strip_tags($desc->innerHtml);
+                } else {
+                    $description = '';
+                }
+
+                if ($cart_button) {
+
+                    $json_data = $cart_button->getAttribute('data-product');
+
+                    $d = ($json_data) ? $json_data : '';
+
+                    $product_info = (array) json_decode($d);
+
+                } else {
+
+                    $product_info = [
+                        'product_name' => '',
+                        'price' => '',
+                        'unit' => '',
+                        'qty' => '',
+                        'product_img' => '',
+                        'company_name' => '',
+                        'company_url' => ''
+                    ];
+                }
+
+                if ($product_info) {
+
+                    $product = new App\Product;
+                    
+                    // $product->company_id = $product_info['product_id'];
+                    $product->category_id = $category->id;
+                    $product->name = $product_info['product_name'];
+                    $product->description = $description;
+                    // $product->slug = $product_info[''];
+                    // $product->description = $product_info[''];
+                    $product->price = $product_info['price'];
+                    // $product->discount = $product_info[''];
+                    $product->stock = $product_info['unit'];
+                    $product->min_qty = $product_info['qty'];
+
+                    $product->image = $product_info['product_img'];
+
+                    $product->company_name = $product_info['company_name'];
+                    $product->company_url = $product_info['company_url'];
+
+                    $product->save();                
+
+                }
+
+            }
+
+        }
+
+        $page2 = new Dom;
+
+        $page2->loadFromUrlProxy($category->link . '?page=6', $proxy);
+
+        foreach ($page2->find('.list .listingdata') as $list) {
+            
+            $link_dom = $list->find('.productdata .content p a', 0);
+
+            if ($link_dom) {
+
+                $link = 'http:' . $link_dom->getAttribute('href');
+
+                $product_dom = new Dom;
+
+                $product_dom->loadFromUrlProxy($link, $proxy);
+
+                $cart_button = $product_dom->find('#cartData', 0);
+
+                $desc = $product_dom->find('.descproduk', 0);
+
+                if ($desc) {
+                    $description = strip_tags($desc->innerHtml);
+                } else {
+                    $description = '';
+                }
+
+                if ($cart_button) {
+
+                    $json_data = $cart_button->getAttribute('data-product');
+
+                    $d = ($json_data) ? $json_data : '';
+
+                    $product_info = (array) json_decode($d);
+
+                } else {
+
+                    $product_info = [
+                        'product_name' => '',
+                        'price' => '',
+                        'unit' => '',
+                        'qty' => '',
+                        'product_img' => '',
+                        'company_name' => '',
+                        'company_url' => ''
+                    ];
+                }
+
+                if ($product_info) {
+
+                    $product = new App\Product;
+                    
+                    // $product->company_id = $product_info['product_id'];
+                    $product->category_id = $category->id;
+                    $product->name = $product_info['product_name'];
+                    $product->description = $description;
+                    // $product->slug = $product_info[''];
+                    // $product->description = $product_info[''];
+                    $product->price = $product_info['price'];
+                    // $product->discount = $product_info[''];
+                    $product->stock = $product_info['unit'];
+                    $product->min_qty = $product_info['qty'];
+
+                    $product->image = $product_info['product_img'];
+
+                    $product->company_name = $product_info['company_name'];
+                    $product->company_url = $product_info['company_url'];
+
+                    $product->save();                
+
+                }
+
+            }
+
+        }
+
+    }
+
+    File::put(storage_path('category4.txt'), $id+1);
+
+    return 'success ' . File::get(storage_path('category4.txt'));
+
+});
+
 Route::get('/product2-17', function() use ($proxies, $proxy) {
 
     $id = File::get(storage_path('category2_17.txt'));
