@@ -669,7 +669,7 @@ Route::get('/product2-17', function() {
 
     $id = (int) $id;
 
-    if ($id == 18) return 'finish';
+    if ($id == 51) return 'finish';
 
     $category = App\Category::where('id', $id)->where('parent_id', '!=', 0)->orderBy('id', 'desc')->first();
 
