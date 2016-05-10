@@ -14,18 +14,25 @@ use App\Http\Classes\Dom;
 */
 
 $proxies = [
-    '116.193.70.38:3128',
-    '116.251.202.1:8080',
-    '120.198.233.211:80',
+    '37.139.12.63:8118',
+    '112.5.220.199:80',
+    '213.85.92.10:80',
     '120.198.233.211:8080',
-    '120.198.244.29:80',
-    '120.198.244.29:82',
-    '120.198.244.29:8080',
-    '120.198.244.29:9999',
-    '128.199.193.111:80'
+    '124.88.67.9:843',
+    '117.135.250.133:8081',
+    '112.5.220.199:83',
+    '82.1.185.176:8080',
+    '221.220.249.50:8118',
+    '120.198.233.211:80',
+    '138.201.70.133:3128',
+    '116.231.25.120:8118',
+    '222.39.87.21:8118',
+    '82.101.220.241:80',
+    '207.96.132.58:80',
+    '107.163.117.5:808'
 ];
 
-$proxy = '128.199.193.111:80';
+$proxy = '107.163.117.5:808';
 
 
 Route::get('/', function () {
@@ -860,7 +867,7 @@ Route::get('/product', function() use ($proxies, $proxy) {
 
         $page = new Dom;
 
-        $page->loadFromUrlProxy($category->link . '?page=3', $proxy);
+        $page->loadFromUrlProxy($category->link . '?page=7', $proxy);
 
         foreach ($page->find('.list .listingdata') as $list) {
             
@@ -935,7 +942,7 @@ Route::get('/product', function() use ($proxies, $proxy) {
 
         $page2 = new Dom;
 
-        $page2->loadFromUrlProxy($category->link . '?page=4', $proxy);
+        $page2->loadFromUrlProxy($category->link . '?page=8', $proxy);
 
         foreach ($page2->find('.list .listingdata') as $list) {
             
@@ -1034,7 +1041,7 @@ Route::get('/product2', function() use ($proxies, $proxy) {
 
         $page = new Dom;
 
-        $page->loadFromUrlProxy($category->link . '?page=3', $proxy);
+        $page->loadFromUrlProxy($category->link . '?page=7', $proxy);
 
         foreach ($page->find('.list .listingdata') as $list) {
             
@@ -1109,7 +1116,7 @@ Route::get('/product2', function() use ($proxies, $proxy) {
 
         $page2 = new Dom;
 
-        $page2->loadFromUrlProxy($category->link . '?page=4', $proxy);
+        $page2->loadFromUrlProxy($category->link . '?page=8', $proxy);
 
         foreach ($page2->find('.list .listingdata') as $list) {
             
@@ -1208,7 +1215,7 @@ Route::get('/product3', function() use ($proxies, $proxy) {
 
         $page = new Dom;
 
-        $page->loadFromUrlProxy($category->link . '?page=5', $proxy);
+        $page->loadFromUrlProxy($category->link . '?page=9', $proxy);
 
         foreach ($page->find('.list .listingdata') as $list) {
             
@@ -1283,7 +1290,7 @@ Route::get('/product3', function() use ($proxies, $proxy) {
 
         $page2 = new Dom;
 
-        $page2->loadFromUrlProxy($category->link . '?page=6', $proxy);
+        $page2->loadFromUrlProxy($category->link . '?page=10', $proxy);
 
         foreach ($page2->find('.list .listingdata') as $list) {
             
@@ -1382,7 +1389,7 @@ Route::get('/product4', function() use ($proxies, $proxy) {
 
         $page = new Dom;
 
-        $page->loadFromUrlProxy($category->link . '?page=5', $proxy);
+        $page->loadFromUrlProxy($category->link . '?page=9', $proxy);
 
         foreach ($page->find('.list .listingdata') as $list) {
             
@@ -1457,7 +1464,7 @@ Route::get('/product4', function() use ($proxies, $proxy) {
 
         $page2 = new Dom;
 
-        $page2->loadFromUrlProxy($category->link . '?page=6', $proxy);
+        $page2->loadFromUrlProxy($category->link . '?page=10', $proxy);
 
         foreach ($page2->find('.list .listingdata') as $list) {
             
